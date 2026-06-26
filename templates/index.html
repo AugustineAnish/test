@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="theme-color" content="#0a0010"/>
+<title>For Nandu 💗</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500&family=Fira+Code:wght@300;400&display=swap"/>
+
+<style>
+/* ─── RESET & BASE ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #07000f;
+  --bg2:       #0e0018;
+  --rose:      #ff4d8d;
+  --rose-dim:  #c2386a;
+  --rose-glow: rgba(255,77,141,.18);
+  --lavender:  #c4a7ff;
+  --lav-dim:   #7b55d4;
+  --gold:      #ffd97d;
+  --white:     #f8f0ff;
+  --muted:     rgba(248,240,255,.45);
+  --card-bg:   rgba(255,255,255,.035);
+  --card-bdr:  rgba(255,255,255,.08);
+  --radius:    18px;
+  --font-d:    'Cormorant Garamond', serif;
+  --font-b:    'Inter', sans-serif;
+  --font-c:    'Fira Code', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--font-b);
+  font-weight: 300;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── CANVAS STARFIELD ──────────────────────────────────────── */
+#starfield {
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none;
+}
+
+/* ─── SECTIONS ──────────────────────────────────────────────── */
+section {
+  position: relative; z-index: 1;
+  max-width: 480px; margin: 0 auto;
+  padding: 0 22px;
+}
+
+/* ─── HERO ──────────────────────────────────────────────────── */
+#hero {
+  min-height: 100dvh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; gap: 0;
+  padding-top: 60px;
+}
+
+.eyebrow {
+  font-family: var(--font-c);
+  font-size: 11px; font-weight: 300;
+  letter-spacing: .22em;
+  color: var(--lavender);
+  text-transform: uppercase;
+  opacity: 0;
+  animation: fadeUp .8s .3s ease forwards;
+}
+
+.hero-title {
+  font-family: var(--font-d);
+  font-size: clamp(62px, 18vw, 88px);
+  font-weight: 300;
+  font-style: italic;
+  line-height: .95;
+  color: var(--white);
+  margin: 18px 0 6px;
+  opacity: 0;
+  animation: fadeUp .9s .5s ease forwards;
+}
+.hero-title .accent { color: var(--rose); }
+
+.hero-sub {
+  font-family: var(--font-d);
+  font-size: 17px; font-weight: 300;
+  color: var(--muted);
+  font-style: italic;
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeUp .8s .7s ease forwards;
+}
+
+/* ─── HEART 3-D ─────────────────────────────────────────────── */
+#heart-wrap {
+  position: relative;
+  width: 160px; height: 160px;
+  margin: 0 auto 48px;
+  opacity: 0;
+  animation: fadeUp .8s .9s ease forwards;
+}
+
+#heart-svg {
+  width: 160px; height: 160px;
+  filter: drop-shadow(0 0 22px var(--rose)) drop-shadow(0 0 60px rgba(255,77,141,.4));
+  animation: heartbeat 2.2s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes heartbeat {
+  0%,100% { transform: scale(1); }
+  14%     { transform: scale(1.14); }
+  28%     { transform: scale(1); }
+  42%     { transform: scale(1.08); }
+  56%     { transform: scale(1); }
+}
+
+.pulse-ring {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,77,141,.5);
+  animation: pulseRing 2.2s ease-out infinite;
+}
+.pulse-ring:nth-child(2) { animation-delay: .5s; }
+.pulse-ring:nth-child(3) { animation-delay: 1s; }
+
+@keyframes pulseRing {
+  0%   { transform: scale(.6); opacity: .8; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+
+/* ─── SCROLL CUE ────────────────────────────────────────────── */
+.scroll-cue {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  opacity: 0; animation: fadeIn 1s 2s ease forwards;
+  color: var(--muted); font-size: 11px; letter-spacing: .15em;
+  text-transform: uppercase; font-family: var(--font-c);
+}
+.scroll-cue .arrow {
+  width: 1px; height: 36px;
+  background: linear-gradient(to bottom, transparent, var(--rose-dim));
+  animation: arrowDrop 1.4s ease-in-out infinite;
+}
+@keyframes arrowDrop {
+  0%,100% { transform: translateY(-6px); opacity: 0; }
+  50%     { transform: translateY(0); opacity: 1; }
+}
+
+/* ─── CODE TERMINAL CARD ────────────────────────────────────── */
+.terminal-card {
+  background: #0d001a;
+  border: 1px solid rgba(196,167,255,.15);
+  border-radius: 14px;
+  padding: 0;
+  margin: 80px 0 60px;
+  overflow: hidden;
+  box-shadow: 0 0 60px rgba(123,85,212,.1);
+}
+
+.terminal-bar {
+  background: rgba(255,255,255,.04);
+  border-bottom: 1px solid rgba(255,255,255,.07);
+  padding: 10px 14px;
+  display: flex; align-items: center; gap: 7px;
+}
+.t-dot {
+  width: 11px; height: 11px; border-radius: 50%;
+}
+.t-dot:nth-child(1) { background: #ff5f56; }
+.t-dot:nth-child(2) { background: #ffbd2e; }
+.t-dot:nth-child(3) { background: #27c93f; }
+.t-title {
+  font-family: var(--font-c); font-size: 11px;
+  color: var(--muted); margin-left: auto; margin-right: auto;
+}
+
+.terminal-body {
+  padding: 18px 18px 22px;
+  font-family: var(--font-c);
+  font-size: 13px; line-height: 1.85;
+  white-space: pre-wrap;
+}
+.c-comment { color: #5a4e72; }
+.c-key     { color: var(--lavender); }
+.c-str     { color: var(--rose); }
+.c-num     { color: var(--gold); }
+.c-fn      { color: #7af8ca; }
+.c-punc    { color: var(--muted); }
+.c-bool    { color: #ff9d6f; }
+
+/* ─── SECTION HEADINGS ──────────────────────────────────────── */
+.sec-label {
+  font-family: var(--font-c);
+  font-size: 10.5px; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--lavender);
+  margin-bottom: 10px;
+}
+.sec-heading {
+  font-family: var(--font-d);
+  font-size: clamp(34px, 9vw, 48px);
+  font-weight: 300; font-style: italic;
+  line-height: 1.1;
+  margin-bottom: 32px;
+  color: var(--white);
+}
+.sec-heading em { color: var(--rose); font-style: normal; }
+
+/* ─── REASON CARDS ──────────────────────────────────────────── */
+.reasons-grid {
+  display: flex; flex-direction: column; gap: 14px;
+  margin-bottom: 80px;
+}
+
+.reason-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-bdr);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  display: flex; gap: 16px; align-items: flex-start;
+  position: relative; overflow: hidden;
+  transition: border-color .3s, transform .25s;
+  opacity: 0; transform: translateY(24px);
+}
+.reason-card.visible {
+  animation: cardIn .6s ease forwards;
+}
+@keyframes cardIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+.reason-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at top left, rgba(255,77,141,.06), transparent 70%);
+  pointer-events: none;
+}
+.reason-card:active { transform: scale(.98); }
+
+.reason-icon {
+  font-size: 26px; line-height: 1;
+  flex-shrink: 0; margin-top: 2px;
+}
+.reason-text strong {
+  display: block;
+  font-family: var(--font-d);
+  font-size: 19px; font-weight: 400;
+  color: var(--white); margin-bottom: 3px;
+}
+.reason-text span {
+  font-size: 13.5px; line-height: 1.6; color: var(--muted);
+}
+
+/* ─── PROMISE SECTION ───────────────────────────────────────── */
+#promise { padding-top: 20px; padding-bottom: 40px; }
+
+.promise-box {
+  background: linear-gradient(135deg, rgba(255,77,141,.07), rgba(196,167,255,.05));
+  border: 1px solid rgba(255,77,141,.2);
+  border-radius: 20px;
+  padding: 28px 24px;
+  text-align: center;
+  margin-bottom: 60px;
+  position: relative; overflow: hidden;
+}
+.promise-box::after {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,77,141,.12), transparent 70%);
+  pointer-events: none;
+}
+
+.promise-box p {
+  font-family: var(--font-d);
+  font-size: 21px; font-style: italic;
+  font-weight: 300; line-height: 1.55;
+  color: var(--white);
+  margin-bottom: 20px;
+}
+.promise-box .signed {
+  font-family: var(--font-c); font-size: 11px;
+  color: var(--lavender); letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+/* ─── COUNTER ───────────────────────────────────────────────── */
+.counter-wrap {
+  text-align: center; margin-bottom: 60px;
+}
+.counter-label {
+  font-family: var(--font-c); font-size: 11px;
+  color: var(--muted); letter-spacing: .14em;
+  text-transform: uppercase; margin-bottom: 10px;
+}
+.counter-val {
+  font-family: var(--font-d);
+  font-size: clamp(56px, 16vw, 80px);
+  font-weight: 300; color: var(--rose);
+  line-height: 1;
+  filter: drop-shadow(0 0 20px rgba(255,77,141,.5));
+}
+.counter-unit {
+  font-family: var(--font-d);
+  font-size: 18px; font-style: italic;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+/* ─── FINAL CTA ─────────────────────────────────────────────── */
+#final {
+  text-align: center;
+  padding-bottom: 100px; padding-top: 20px;
+}
+
+.big-line {
+  font-family: var(--font-d);
+  font-size: clamp(42px, 12vw, 62px);
+  font-weight: 300; font-style: italic;
+  line-height: 1.1; margin-bottom: 20px;
+}
+.big-line em { color: var(--rose); font-style: normal; }
+
+.sub-line {
+  font-size: 14px; color: var(--muted);
+  line-height: 1.7; margin-bottom: 40px;
+  font-style: italic; font-family: var(--font-d);
+}
+
+.cta-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: linear-gradient(135deg, var(--rose), #c2386a);
+  color: white; font-family: var(--font-b);
+  font-size: 14px; font-weight: 400;
+  letter-spacing: .04em;
+  padding: 15px 32px; border-radius: 50px;
+  border: none; cursor: pointer; text-decoration: none;
+  box-shadow: 0 8px 32px rgba(255,77,141,.35), 0 2px 8px rgba(0,0,0,.3);
+  transition: transform .2s, box-shadow .2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.cta-btn:active { transform: scale(.96); }
+
+.built-with {
+  margin-top: 50px;
+  font-family: var(--font-c); font-size: 11px;
+  color: rgba(196,167,255,.3); letter-spacing: .1em;
+  line-height: 2;
+}
+.built-with span { color: rgba(255,77,141,.4); }
+
+/* ─── ANIMATIONS ────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+/* ─── SCROLLBAR ─────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--rose-dim); border-radius: 2px; }
+
+/* ─── DIVIDER ───────────────────────────────────────────────── */
+.divider {
+  width: 48px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--rose-dim), transparent);
+  margin: 0 auto 48px;
+}
+
+/* ─── TOAST ─────────────────────────────────────────────────── */
+#toast {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(80px);
+  background: rgba(20,0,36,.95); border: 1px solid rgba(255,77,141,.3);
+  color: var(--white); font-size: 13px; font-family: var(--font-b);
+  padding: 12px 22px; border-radius: 40px; z-index: 999;
+  backdrop-filter: blur(12px);
+  transition: transform .4s cubic-bezier(.34,1.56,.64,1), opacity .4s;
+  opacity: 0; white-space: nowrap;
+}
+#toast.show {
+  transform: translateX(-50%) translateY(0); opacity: 1;
+}
+
+/* reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="starfield"></canvas>
+<div id="toast"></div>
+
+<!-- ══════════ HERO ══════════ -->
+<section id="hero">
+  <p class="eyebrow">a message from someone who loves you</p>
+
+  <h1 class="hero-title">For<br/><em class="accent">Nandu</em></h1>
+  <p class="hero-sub">for my chakara</p>
+
+  <div id="heart-wrap">
+    <div class="pulse-ring"></div>
+    <div class="pulse-ring"></div>
+    <div class="pulse-ring"></div>
+    <svg id="heart-svg" viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="hg" cx="50%" cy="40%" r="60%">
+          <stop offset="0%"   stop-color="#ff8ab8"/>
+          <stop offset="60%"  stop-color="#e8356d"/>
+          <stop offset="100%" stop-color="#8c1a40"/>
+        </radialGradient>
+        <filter id="hblur">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <path fill="url(#hg)" filter="url(#hblur)"
+        d="M50 85
+           C50 85 5 55 5 28
+           C5 14 15 4 27 4
+           C35 4 43 8 50 17
+           C57 8 65 4 73 4
+           C85 4 95 14 95 28
+           C95 55 50 85 50 85Z"/>
+      <!-- shine -->
+      <ellipse cx="36" cy="22" rx="10" ry="6"
+               fill="rgba(255,255,255,.18)" transform="rotate(-30,36,22)"/>
+    </svg>
+  </div>
+
+  <div class="scroll-cue">
+    <span>scroll</span>
+    <div class="arrow"></div>
+  </div>
+</section>
+
+<!-- ══════════ TERMINAL ══════════ -->
+<section id="about">
+  <div class="terminal-card">
+    <div class="terminal-bar">
+      <div class="t-dot"></div><div class="t-dot"></div><div class="t-dot"></div>
+      <span class="t-title">love_letter.py</span>
+    </div>
+    <div class="terminal-body"><span class="c-comment"># Written with way too much caffeine, at 2am,
+# because you were upset with me and I panicked.</span>
+
+<span class="c-key">class</span> <span class="c-fn">MyGirlfriend</span><span class="c-punc">:</span>
+    name       <span class="c-punc">=</span> <span class="c-str">"Nandu"</span>
+    is_amazing <span class="c-punc">=</span> <span class="c-bool">True</span>
+    deserves   <span class="c-punc">=</span> <span class="c-str">"the world"</span>
+    
+
+<span class="c-key">def</span> <span class="c-fn">my_fault</span><span class="c-punc">():</span>
+    <span class="c-key">return</span> <span class="c-str">"I know I haven't been texting you
+    enough.Pani oke aai thirak aai poi, SORRY....."</span>
+
+<span class="c-key">def</span> <span class="c-fn">my_promise</span><span class="c-punc">():</span>
+    <span class="c-key">while</span> <span class="c-bool">True</span><span class="c-punc">:</span>
+        text_nandu_first_thing_in_morning<span class="c-punc">()</span>
+        check_in_throughout_day<span class="c-punc">()</span>
+        never_leave_her_on_read<span class="c-punc">()</span>
+
+<span class="c-comment"># running my_promise() now.
+# status: <span id="promise-status" style="color:#27c93f">● active</span></span></div>
+  </div>
+</section>
+
+
+<!-- ══════════ PROMISE ══════════ -->
+<section id="promise">
+  <h2 class="sec-heading">My<br/><em>promise</em></h2>
+
+  <div class="promise-box">
+    <p>
+      "Sorry Mwoluu I will text you more because you deserve to feel like the first thing on my mind.
+      Because you are my suttumani 😘."
+    </p>
+    <div class="signed">— Augustine with othiri love to my chakara 💗</div>
+  </div>
+
+
+
+  <div class="divider"></div>
+</section>
+
+<!-- ══════════ FINAL ══════════ -->
+<section id="final">
+  <h2 class="big-line">Still yours.<br/><em>Always</em>.</h2>
+  <p class="sub-line">
+    I built this because words in chat feel too small.<br/>
+    You deserved something real. Something you could feel.<br/>
+    This is me trying.
+  </p>
+
+  <a class="cta-btn" href="sms:" id="reply-btn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    text me back 💗
+  </a>
+
+ 
+</section>
+
+<script>
+/* ─── STARFIELD ─────────────────────────────────────────── */
+(function(){
+  const c = document.getElementById('starfield');
+  const ctx = c.getContext('2d');
+  let W, H, stars = [];
+
+  function resize(){
+    W = c.width  = window.innerWidth;
+    H = c.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  for(let i=0;i<160;i++){
+    stars.push({
+      x: Math.random()*2000-1000,
+      y: Math.random()*2000-1000,
+      z: Math.random()*1000,
+      size: Math.random()*1.5+.3,
+      speed: Math.random()*.25+.08,
+      color: Math.random()<.15 ? '#ffd97d' : Math.random()<.3 ? '#c4a7ff' : '#ffffff'
+    });
+  }
+
+  let tick=0;
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    tick++;
+    stars.forEach(s=>{
+      s.z -= s.speed;
+      if(s.z<=0) s.z=1000;
+      const sx = (s.x/s.z)*(W*.5) + W/2;
+      const sy = (s.y/s.z)*(H*.5) + H/2;
+      const r  = s.size*(1-s.z/1000);
+      const op = (1-s.z/1000)*.85;
+      ctx.beginPath();
+      ctx.arc(sx,sy,r,0,Math.PI*2);
+      ctx.fillStyle = s.color;
+      ctx.globalAlpha = op;
+      ctx.fill();
+    });
+    ctx.globalAlpha=1;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ─── SCROLL REVEAL ─────────────────────────────────────── */
+(function(){
+  const cards = document.querySelectorAll('.reason-card');
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach((e,i)=>{
+      if(e.isIntersecting){
+        setTimeout(()=>e.target.classList.add('visible'), i*100);
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:.15});
+  cards.forEach(c=>io.observe(c));
+})();
+
+/* ─── COUNTER (days since today) ────────────────────────── */
+(function(){
+  // Counts up from 0 dramatically, then holds at 1 (day 1 of being better)
+  const el = document.getElementById('counter-val');
+  let n=0, target=1;
+  const io = new IntersectionObserver(entries=>{
+    if(entries[0].isIntersecting){
+      const t = setInterval(()=>{
+        n += 1;
+        el.textContent = n;
+        if(n>=target) clearInterval(t);
+      },80);
+      io.unobserve(entries[0].target);
+    }
+  },{threshold:.5});
+  io.observe(el);
+})();
+
+/* ─── PROMISE STATUS BLINK ──────────────────────────────── */
+(function(){
+  const el = document.getElementById('promise-status');
+  let on=true;
+  setInterval(()=>{
+    el.style.opacity = (on=!on) ? '1' : '0.2';
+  }, 900);
+})();
+
+/* ─── TOAST ─────────────────────────────────────────────── */
+function showToast(msg, dur=2800){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), dur);
+}
+
+/* ─── REPLY BTN ─────────────────────────────────────────── */
+document.getElementById('reply-btn').addEventListener('click', function(e){
+  showToast('💗 please text back, I miss you');
+});
+
+/* ─── HEART TAP EASTER EGG ──────────────────────────────── */
+let heartTaps=0;
+document.getElementById('heart-wrap').addEventListener('click',()=>{
+  heartTaps++;
+  const msgs=['💗','you tapped my heart!','that\'s so you 😂','okay okay I get it 💕',
+    'come back to me 🥺','I love you, Nandu','seriously though 💗'];
+  showToast(msgs[Math.min(heartTaps-1, msgs.length-1)]);
+});
+</script>
+
+</body>
+</html>
